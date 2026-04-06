@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <string.h> 
 
-typedef struct
-{
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
     int identifiant;
     char nom[50];
     int prix;
@@ -11,39 +11,39 @@ typedef struct
 plat menu[100];
 int nbplat = 0;
 
-void ajoutermenu()
-{
+// 1. Ajouter un plat
+void ajoutermenu() {
     if (nbplat >= 100) {
-        printf("\nle menu de dyen app est complet\n");
+        printf("\nLe menu de Dyen App est complet!\n");
         return;
     }
-    printf("\najouter un nouveau plat dyen app\n");
+    printf("\n--- Ajouter un nouveau plat --- \n");
     menu[nbplat].identifiant = nbplat + 1;
     
-    printf("entrer le nom de plat : ");
+    printf("Nom du plat : ");
     scanf("%s", menu[nbplat].nom);
     
-    printf("entrer le prix de plat : ");
+    printf("Prix du plat : ");
     scanf("%d", &menu[nbplat].prix);
-    
+
     nbplat++;
-    printf("le plat a ete ajoute au menu de dyen app\n");
-    printf("le nombre total de plat est : %d\n", nbplat);
+    printf("Plat ajoute avec succes! Total: %d\n", nbplat);
 }
 
-void affichermenu()
-{
-    printf("\nliste de menu dyen app\n");
+// 2. Afficher le menu
+void affichermenu() {
+    printf("\n--- Liste du menu Dyen App ---\n");
     if (nbplat == 0) {
-        printf("nombre de plat est vide\n");
-    }
-    else {
+        printf("Le menu est vide.\n");
+    } else {
         for (int i = 0; i < nbplat; i++) {
-            printf("ID: %d, Nom: %s, Prix: %d\n", menu[i].identifiant, menu[i].nom, menu[i].prix);
+            printf("ID: %d | Nom: %s | Prix: %d DT\n", 
+                   menu[i].identifiant, menu[i].nom, menu[i].prix);
         }
     }
 }
 
+// 3. Rechercher un plat
 void rechercherplat() {
     char nomRecherche[50];
     int trouve = 0;
@@ -53,35 +53,63 @@ void rechercherplat() {
 
     for (int i = 0; i < nbplat; i++) {
         if (strcmp(menu[i].nom, nomRecherche) == 0) {
-            printf("Plat trouve ! identifiant: %d, Prix: %d\n", menu[i].identifiant, menu[i].prix);
+            printf("Plat trouve! ID: %d | Prix: %d DT\n", 
+                   menu[i].identifiant, menu[i].prix);
             trouve = 1;
-            break;
+            break; 
         }
     }
     if (trouve == 0) printf("Plat non trouve.\n");
 }
 
-int main()
-{
+// 4. Supprimer un plat 
+void supprimerplat() {
+    int idRecherche, trouve = 0;
+    if (nbplat == 0) {
+        printf("\nLe menu est deja vide.\n");
+        return;
+    }
+    printf("\nEntrez l'ID du plat a supprimer : ");
+    scanf("%d", &idRecherche);
+
+    for (int i = 0; i < nbplat; i++) {
+        if (menu[i].identifiant == idRecherche) {
+            trouve = 1;
+            // Décalage des éléments vers la gauche pour boucher le vide
+            for (int j = i; j < nbplat - 1; j++) {
+                menu[j] = menu[j + 1];
+            }
+            nbplat--;
+            printf("Plat ID %d supprime avec succes!\n", idRecherche);
+            break;
+        }
+    }
+    if (!trouve) printf("ID %d non trouve dans le menu.\n", idRecherche);
+}
+
+// 5. Fonction principale
+int main() {
     int choix;
     do {
-        printf("\n--- menu dyen app ---\n");
-        printf("1.ajouter un plat\n");
-        printf("2.afficher le menu\n");
-        printf("3.rechercher un plat\n");
-        printf("0.Quitter\n");
-        printf("votre choix : ");
+        printf("\n=== DYEN APP MENU ===\n");
+        printf("1. Ajouter un plat\n");
+        printf("2. Afficher le menu\n");
+        printf("3. Rechercher un plat\n");
+        printf("4. Supprimer un plat\n");
+        printf("0. Quitter\n");
+        printf("Votre choix : ");
         scanf("%d", &choix);
 
         switch (choix) {
             case 1: ajoutermenu(); break;
             case 2: affichermenu(); break;
-            case 3: rechercherplat(); break; 
-            case 0: printf(" au revoir\n"); break;
-            default: printf(" choix invalide\n");
+            case 3: rechercherplat(); break;
+            case 4: supprimerplat(); break;
+            case 0: printf("Au revoir!\n"); break;
+            default: printf("Choix invalide!\n");
         }
-
     } while (choix != 0);
 
     return 0;
 }
+  
