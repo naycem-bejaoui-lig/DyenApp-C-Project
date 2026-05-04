@@ -1,5 +1,3 @@
-
-  
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,7 +26,7 @@ void ajouterPlat() {
     nouveau->suivant = tete;
     tete = nouveau;
 
-    printf("Plat ajouté avec succès!\n");
+    printf("Plat ajoute avec succes!\n");
 }
 
 // Afficher les plats
@@ -41,7 +39,7 @@ void afficherMenu() {
     }
 
     while (temp != NULL) {
-        printf("ID: %d | Nom: %s | Prix: %d DT\n", 
+        printf("ID: %d | Nom: %s | Prix: %d DT\n",
                temp->id, temp->nom, temp->prix);
         temp = temp->suivant;
     }
@@ -50,25 +48,25 @@ void afficherMenu() {
 // Recherche
 void rechercherPlat() {
     char nom[50];
-    printf("Nom à chercher: ");
+    printf("Nom a chercher: ");
     scanf("%s", nom);
 
     Plat* temp = tete;
     while (temp != NULL) {
         if (strcmp(temp->nom, nom) == 0) {
-            printf("Trouvé: ID %d | Prix %d\n", temp->id, temp->prix);
+            printf("Trouve: ID %d | Prix %d\n", temp->id, temp->prix);
             return;
         }
         temp = temp->suivant;
     }
 
-    printf("Plat non trouvé.\n");
+    printf("Plat non trouve.\n");
 }
 
 // Suppression
 void supprimerPlat() {
     int id;
-    printf("ID à supprimer: ");
+    printf("ID a supprimer: ");
     scanf("%d", &id);
 
     Plat *temp = tete, *precedent = NULL;
@@ -79,7 +77,7 @@ void supprimerPlat() {
     }
 
     if (temp == NULL) {
-        printf("Non trouvé.\n");
+        printf("Non trouve.\n");
         return;
     }
 
@@ -89,7 +87,7 @@ void supprimerPlat() {
         precedent->suivant = temp->suivant;
 
     free(temp);
-    printf("Supprimé.\n");
+    printf("Supprime.\n");
 }
 
 // Sauvegarde
@@ -103,7 +101,7 @@ void sauvegarder() {
     }
 
     fclose(f);
-    printf("Données sauvegardées.\n");
+    printf("Donnees sauvegardees.\n");
 }
 
 // Chargement
@@ -124,15 +122,39 @@ void charger() {
 
     fclose(f);
 }
+void modifierPlat() {
+    int id;
+    printf("ID du plat a modifier: ");
+    scanf("%d", &id);
 
-// MAIN
+    Plat* temp = tete;
+
+    // Recherche du plat
+    while (temp != NULL && temp->id != id) {
+        temp = temp->suivant;
+    }
+    if (temp == NULL) {
+        printf("Plat non trouve.\n");
+        return;
+    }
+
+    // Modification
+    printf("Nouveau nom: ");
+    scanf("%s", temp->nom);
+    printf("Nouveau prix: ");
+    scanf("%d", &temp->prix);
+    printf("Plat modifie avec succes!\n");
+}
+// p.p
 int main() {
     int choix;
-
     charger();
-
     do {
-        printf("\n1. Ajouter\n2. Afficher\n3. Rechercher\n4. Supprimer\n5. Sauvegarder\n0. Quitter\n");
+        printf("\n.....................................\n");
+        printf("\n===> DYEN.app <===\n");
+        printf("\n.....................................\n");
+        printf("\n1. Ajouter Plat\n2. Afficher Plat\n3. Rechercher Plat\n4. Supprimer Plat\n5. Sauvegarder Plat\n6. Modifier Plat\n0. Quitter\n ");
+        printf("\n.....................................\n");
         scanf("%d", &choix);
 
         switch (choix) {
@@ -141,6 +163,7 @@ int main() {
             case 3: rechercherPlat(); break;
             case 4: supprimerPlat(); break;
             case 5: sauvegarder(); break;
+            case 6: modifierPlat(); break;
         }
 
     } while (choix != 0);
@@ -148,3 +171,4 @@ int main() {
     sauvegarder();
     return 0;
 }
+
